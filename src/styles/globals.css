@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* Tell Tailwind to use your JS config (optional if you already defined @theme here) */
+@config "../../tailwind.config.js";
+
+/* Your theme tokens directly in CSS (this overrides JS config if both exist) */
+@theme {
+  /* ---- COLORS (from your assignment theme) ---- */
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #3f3f46;
+  --color-neutral-800: #27272a;
+  --color-neutral-900: #18181b;
+
+  --color-success-500: #10b981;
+  --color-warning-500: #f59e0b;
+  --color-error-500: #ef4444;
+
+  /* ---- TYPOGRAPHY ---- */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "Fira Code", monospace;
+
+  /* ---- RADIUS ---- */
+  --radius-card: 1rem;
+}
+
+@layer base {
+  html, body {
+    height: 100%;
+    font-family: var(--font-sans);
+    background-color: var(--color-neutral-50);
+    color: var(--color-neutral-900);
+  }
+}
