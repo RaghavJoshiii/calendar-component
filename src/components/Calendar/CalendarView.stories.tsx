@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
+
 import { CalendarView } from "./CalendarView";
 import { useEventManager } from "../../hooks/useEventManager";
 import "../../styles/globals.css";
