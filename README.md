@@ -48,36 +48,6 @@ ESC to close
 Click outside closes modal
 Validation
 
-# Accessibility (A11y)
-
-Fully implemented as required:
-role="grid" for Month View
-role="button" for all interactive elements
-aria-label for dates and events
-aria-modal="true" for modal
-No keyboard trapping
-Escape closes modal
-Arrow keys move inside grid
-Tab and Shift+Tab exit grid
-Click outside clears selection
-
-# Storybook Integration
-
-Storybook is set up with:
-
-✅ Default Calendar View
-✅ Empty Calendar
-✅ Week View
-✅ Many Events Test
-✅ Interactive Playground
-✅ Keyboard Interaction Test
-✅ TailwindCSS + globals support
-✅ No TypeScript errors
-
-to run storybook 
-
-````npm run storybook````
-
 How to run development server
 ````npm install````
 ````npm run dev````
