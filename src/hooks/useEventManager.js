@@ -1,17 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 
-export interface CalendarEvent {
-  id: string;
-  title: string;
-  description?: string;
-  startDate: Date;
-  endDate: Date;
-  color?: string;
-  category?: string;
-}
-
 // Helpers to ensure Date objects
-const reviveEvent = (e: any): CalendarEvent => ({
+const reviveEvent = (e) => ({
   ...e,
   startDate: new Date(e.startDate),
   endDate: new Date(e.endDate),
@@ -20,7 +10,7 @@ const reviveEvent = (e: any): CalendarEvent => ({
 const LS_KEY = "calendar-events";
 
 // Load from localStorage; if empty, fall back to seed
-const loadInitial = (seed: CalendarEvent[]): CalendarEvent[] => {
+const loadInitial = (seed) => {
   try {
     const raw = localStorage.getItem(LS_KEY);
     if (raw) {
@@ -33,8 +23,8 @@ const loadInitial = (seed: CalendarEvent[]): CalendarEvent[] => {
   }
 };
 
-export const useEventManager = (seed: CalendarEvent[] = []) => {
-  const [events, setEvents] = useState<CalendarEvent[]>(() => loadInitial(seed));
+export const useEventManager = (seed = []) => {
+  const [events, setEvents] = useState(() => loadInitial(seed));
 
   // persist on change
   useEffect(() => {
@@ -45,17 +35,17 @@ export const useEventManager = (seed: CalendarEvent[] = []) => {
     }
   }, [events]);
 
-  const addEvent = useCallback((event: CalendarEvent) => {
+  const addEvent = useCallback((event) => {
     setEvents(prev => [...prev, reviveEvent(event)]);
   }, []);
 
-  const updateEvent = useCallback((id: string, updates: Partial<CalendarEvent>) => {
+  const updateEvent = useCallback((id, updates) => {
     setEvents(prev =>
       prev.map(e => (e.id === id ? reviveEvent({ ...e, ...updates }) : e))
     );
   }, []);
 
-  const deleteEvent = useCallback((id: string) => {
+  const deleteEvent = useCallback((id) => {
     setEvents(prev => prev.filter(e => e.id !== id));
   }, []);
 

@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react";
-import type { CalendarEvent } from "../../hooks/useEventManager";
 
-interface EventModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSave: (event: CalendarEvent) => void;
-  existingEvent: CalendarEvent | null;
-  selectedDate: Date | null;
-}
-
-const toLocalInput = (d: Date) => {
+const toLocalInput = (d) => {
   const tz = d.getTimezoneOffset() * 60000;
   return new Date(d.getTime() - tz).toISOString().slice(0, 16);
 };
 
-export const EventModal: React.FC<EventModalProps> = ({
+export const EventModal = ({
   isOpen,
   onClose,
   onSave,
@@ -22,7 +13,7 @@ export const EventModal: React.FC<EventModalProps> = ({
   selectedDate,
 }) => {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");  // ✅ NEW
+  const [description, setDescription] = useState("");
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [color, setColor] = useState("#0ea5e9");
@@ -30,7 +21,7 @@ export const EventModal: React.FC<EventModalProps> = ({
   useEffect(() => {
     if (existingEvent) {
       setTitle(existingEvent.title);
-      setDescription(existingEvent.description || ""); // ✅ load description
+      setDescription(existingEvent.description || "");
       setStart(toLocalInput(existingEvent.startDate));
       setEnd(toLocalInput(existingEvent.endDate));
       setColor(existingEvent.color || "#0ea5e9");
@@ -38,12 +29,12 @@ export const EventModal: React.FC<EventModalProps> = ({
       const v = toLocalInput(selectedDate);
       setStart(v);
       setEnd(v);
-      setDescription("");  // ✅ reset description
+      setDescription("");
     }
   }, [existingEvent, selectedDate]);
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
+    const handler = (e) => {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", handler);
@@ -55,10 +46,10 @@ export const EventModal: React.FC<EventModalProps> = ({
   const save = () => {
     if (!title.trim()) return;
 
-    const evt: CalendarEvent = {
+    const evt = {
       id: existingEvent?.id || Math.random().toString(36).slice(2),
       title,
-      description, // ✅ save description
+      description,
       startDate: new Date(start),
       endDate: new Date(end),
       color,
@@ -89,7 +80,7 @@ export const EventModal: React.FC<EventModalProps> = ({
             onChange={(e) => setTitle(e.target.value)}
           />
 
-          {/* ✅ Description */}
+          {/* Description */}
           <textarea
             className="w-full border rounded p-2 h-20 resize-none"
             placeholder="Description (optional)"

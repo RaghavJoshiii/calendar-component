@@ -3,14 +3,8 @@ import { useCalendar } from "../../hooks/useCalendar";
 import { EventModal } from "./EventModals";
 import { MonthView } from "./MonthView";
 import { WeekView } from "./WeekView";
-import type { CalendarEvent } from "../../hooks/useEventManager";
 
-export const CalendarView: React.FC<{
-  events: CalendarEvent[];
-  onEventAdd: (event: CalendarEvent) => void;
-  onEventUpdate: (id: string, updates: Partial<CalendarEvent>) => void;
-  onEventDelete: (id: string) => void;
-}> = ({ events, onEventAdd, onEventUpdate, onEventDelete }) => {
+export const CalendarView = ({ events, onEventAdd, onEventUpdate, onEventDelete }) => {
   const {
     currentDate,
     goToNextMonth,
@@ -20,18 +14,18 @@ export const CalendarView: React.FC<{
     goToPreviousWeek,
   } = useCalendar();
 
-  const [view, setView] = useState<"month" | "week">("month");
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [editingEvent, setEditingEvent] = useState<CalendarEvent | null>(null);
+  const [view, setView] = useState("month");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [editingEvent, setEditingEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openNewEvent = (date: Date) => {
+  const openNewEvent = (date) => {
     setSelectedDate(date);
     setEditingEvent(null);
     setIsModalOpen(true);
   };
 
-  const openEditEvent = (event: CalendarEvent) => {
+  const openEditEvent = (event) => {
     setEditingEvent(event);
     setSelectedDate(null);
     setIsModalOpen(true);

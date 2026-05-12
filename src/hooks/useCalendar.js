@@ -4,8 +4,8 @@ import { useState, useCallback } from "react";
  * Simple calendar controller with both month and week navigation.
  * Keep all date math in here so views stay dumb.
  */
-export const useCalendar = (initialDate: Date = new Date()) => {
-  const [currentDate, setCurrentDate] = useState<Date>(initialDate);
+export const useCalendar = (initialDate = new Date()) => {
+  const [currentDate, setCurrentDate] = useState(initialDate);
 
   const goToToday = useCallback(() => {
     setCurrentDate(new Date());

@@ -2,7 +2,7 @@ import React from "react";
 import {CalendarView} from "./components/Calendar/CalendarView";
 import { useEventManager } from "./hooks/useEventManager";
 
-const App: React.FC = () => {
+const App = () => {
   const { events, addEvent, updateEvent, deleteEvent } = useEventManager();
 
   return (

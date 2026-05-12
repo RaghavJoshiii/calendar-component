@@ -1,11 +1,11 @@
-export const getMonthDays = (date: Date): Date[] => {
+export const getMonthDays = (date) => {
   const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
   const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
   const startDay = startOfMonth.getDay();
   const daysInMonth = endOfMonth.getDate();
 
-  const days: Date[] = [];
+  const days = [];
 
   // previous month's days to fill grid
   for (let i = startDay - 1; i >= 0; i--) {

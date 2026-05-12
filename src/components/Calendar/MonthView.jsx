@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "../../lib/utils";
-import type { CalendarEvent } from "../../hooks/useEventManager";
 import {
   startOfMonth,
   startOfWeek,
@@ -11,18 +10,10 @@ import {
   format,
 } from "date-fns";
 
-export interface MonthViewProps {
-  currentDate: Date;
-  events: CalendarEvent[];
-  onDateClick: (date: Date) => void;
-  onEventClick: (event: CalendarEvent) => void;
-  onEventDelete: (id: string) => void;
-}
-
 const WEEK_COLS = 7;
 const GRID_CELLS = 42;
 
-export const MonthView: React.FC<MonthViewProps> = ({
+export const MonthView = ({
   currentDate,
   events,
   onDateClick,
@@ -37,11 +28,11 @@ export const MonthView: React.FC<MonthViewProps> = ({
   );
 
   // Keep refs to cells to move focus programmatically
-  const cellRefs = useRef<HTMLDivElement[]>([]);
+  const cellRefs = useRef([]);
 
   // --- Accessibility/Keyboard state
   const [gridActive, setGridActive] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   // Find today index (used when arrows first enter the grid)
   const today = new Date();
@@ -59,10 +50,9 @@ export const MonthView: React.FC<MonthViewProps> = ({
 
   // Click outside -> deactivate/deselect
   useEffect(() => {
-    const onClickOutside = (e: MouseEvent) => {
-      // If click is not inside any grid cell, deactivate
-      const target = e.target as Node | null;
-      const inside = cellRefs.current.some((el) => el && el.contains(target as Node));
+    const onClickOutside = (e) => {
+      const target = e.target;
+      const inside = cellRefs.current.some((el) => el && el.contains(target));
       if (!inside) {
         setGridActive(false);
         setSelectedIndex(null);
@@ -72,15 +62,9 @@ export const MonthView: React.FC<MonthViewProps> = ({
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
-  // Global key handler:
-  // - If grid NOT active and user hits Arrow keys -> enter grid and select "today" (or closest)
-  // - If grid active:
-  //   - Arrow keys move inside grid and prevent page scroll
-  //   - Esc exits grid
-  //   - Tab/Shift+Tab exit grid (let browser handle focus)
-  //   - Enter/Space = trigger onDateClick for selected cell
+  // Global key handler
   useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
+    const onKeyDown = (e) => {
       const key = e.key;
 
       const isArrow =
@@ -88,19 +72,17 @@ export const MonthView: React.FC<MonthViewProps> = ({
 
       if (!gridActive) {
         if (isArrow) {
-          e.preventDefault(); // prevent page scroll on initial arrow
+          e.preventDefault();
           setGridActive(true);
           setSelectedIndex(todayIndex);
         }
-        return; // do nothing else if inactive
+        return;
       }
 
-      // When grid is active:
-      // Tab keys should exit the grid and allow normal browser tabbing
       if (key === "Tab") {
         setGridActive(false);
         setSelectedIndex(null);
-        return; // no preventDefault -> let browser tab naturally
+        return;
       }
 
       if (key === "Escape") {
@@ -113,7 +95,7 @@ export const MonthView: React.FC<MonthViewProps> = ({
       if (selectedIndex === null) return;
 
       if (isArrow) {
-        e.preventDefault(); // stop page scrolling
+        e.preventDefault();
         let next = selectedIndex;
         if (key === "ArrowRight") next = Math.min(GRID_CELLS - 1, selectedIndex + 1);
         if (key === "ArrowLeft") next = Math.max(0, selectedIndex - 1);
@@ -164,12 +146,9 @@ export const MonthView: React.FC<MonthViewProps> = ({
               aria-label={`Date ${format(date, "PPP")}. ${dayEvents.length} events.`}
               tabIndex={0}
               ref={(el) => {
-                
-                cellRefs.current[index] = el as HTMLDivElement;
+                cellRefs.current[index] = el;
               }}
               onKeyDown={(e) => {
-                // Per-cell handler is optional; global handler takes care of arrows/enter.
-                // Keep this to stop propagation when needed.
                 if (e.key === "Enter") {
                   e.preventDefault();
                   onDateClick(date);
@@ -182,13 +161,9 @@ export const MonthView: React.FC<MonthViewProps> = ({
               }}
               className={cn(
                 "h-28 p-2 relative cursor-pointer transition-colors duration-200 outline-none",
-                // Base color by month
                 inMonth ? "bg-white text-neutral-900" : "bg-neutral-100 text-neutral-400",
-                // Hover (slightly darker than before)
                 "hover:bg-primary-100",
-                // Today highlight
                 isTodayCell && "border border-primary-500 text-primary-700 font-semibold",
-                // Selected cell (darker than hover, persists while selected)
                 isSelected && "bg-primary-100 ring-2 ring-primary-500/40"
               )}
             >

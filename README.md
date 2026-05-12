@@ -2,10 +2,9 @@
 
 This project is a fully interactive, accessible, and responsive Calendar Application built using:
 
-React + TypeScript
+React + JavaScript (ES6+)
 Vite
 TailwindCSS
-Storybook
 date-fns
 
 LocalStorage for event persistence
@@ -24,7 +23,7 @@ Events displayed as colored chips
 Hover delete button (×)
 “+ More” indicator for overflow
 Keyboard navigation (Arrow keys, Enter, Esc, Tab)
-ARIA roles and labels for accessibility
+
 
 # 📅 Week View
 
@@ -32,7 +31,6 @@ ARIA roles and labels for accessibility
 Events positioned using minute-based calculation
 Hover delete support
 Responsive layout
-ARIA-compliant structure
 Time labels for each hour
 
 # 📝 Event Modal

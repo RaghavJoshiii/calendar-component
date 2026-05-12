@@ -1,10 +1,10 @@
-// src/utils/date.utils.ts
-export const daysBetween = (start: Date, end: Date): number => {
+// src/utils/date.utils.js
+export const daysBetween = (start, end) => {
   const msPerDay = 1000 * 60 * 60 * 24;
   return Math.floor((end.getTime() - start.getTime()) / msPerDay);
 };
 
-export const isSameDay = (a: Date, b: Date): boolean => {
+export const isSameDay = (a, b) => {
   return (
     a.getFullYear() === b.getFullYear() &&
     a.getMonth() === b.getMonth() &&
@@ -12,14 +12,14 @@ export const isSameDay = (a: Date, b: Date): boolean => {
   );
 };
 
-export const getDaysInMonth = (date: Date): Date[] => {
+export const getDaysInMonth = (date) => {
   const year = date.getFullYear();
   const month = date.getMonth();
   const total = new Date(year, month + 1, 0).getDate();
   return Array.from({ length: total }, (_, i) => new Date(year, month, i + 1));
 };
 
-export const getCalendarGrid = (date: Date): Date[] => {
+export const getCalendarGrid = (date) => {
   const year = date.getFullYear();
   const month = date.getMonth();
   const firstDay = new Date(year, month, 1);

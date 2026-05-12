@@ -1,5 +1,4 @@
 import React from "react";
-import type { CalendarEvent } from "../../hooks/useEventManager";
 import {
   startOfWeek,
   addDays,
@@ -7,19 +6,11 @@ import {
   format,
 } from "date-fns";
 
-export interface WeekViewProps {
-  currentDate: Date;
-  events: CalendarEvent[];
-  onDateClick: (date: Date) => void;
-  onEventClick: (event: CalendarEvent) => void;
-  onEventDelete: (id: string) => void;
-}
-
 // Height settings
-const HOUR_HEIGHT = 48;          // each hour slot (48px)
-const MINUTE_HEIGHT = HOUR_HEIGHT / 60; // pixel per minute (0.8px/minute)
+const HOUR_HEIGHT = 48;
+const MINUTE_HEIGHT = HOUR_HEIGHT / 60;
 
-export const WeekView: React.FC<WeekViewProps> = ({
+export const WeekView = ({
   currentDate,
   events,
   onDateClick,
@@ -31,7 +22,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
   // Helper for minute-based positioning
-  const getMinutes = (date: Date) => date.getHours() * 60 + date.getMinutes();
+  const getMinutes = (date) => date.getHours() * 60 + date.getMinutes();
 
   return (
     <div className="animate-fade-in w-full overflow-x-auto">
@@ -89,7 +80,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
                 const end = new Date(e.endDate);
 
                 const startMin = getMinutes(start);
-                const endMin = Math.max(startMin + 30, getMinutes(end)); // min 30min
+                const endMin = Math.max(startMin + 30, getMinutes(end));
 
                 const top = startMin * MINUTE_HEIGHT;
                 const height = (endMin - startMin) * MINUTE_HEIGHT;
